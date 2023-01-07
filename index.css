@@ -21,6 +21,11 @@ main {
     user-select: none;
 }
 
+.info--h1 a {
+    color: black;
+    text-decoration: none;
+}
+
 .info--p {
     font-family: 'Inter', sans-serif;
     font-weight: 400;

@@ -45,7 +45,7 @@ const App = () => {
         <main>
             {isGameWon && <Confetti />}
             <div className="info">
-                <h1 className="info--h1">Tenzies</h1>
+                <h1 className="info--h1"><a href="https://github.com/Infinage/tenzies-react">Tenzies</a></h1>
                 <p className="info--p">Roll until all dice are the same. Click each die to freeze / unfreeze it at its current value between rolls.</p>
             </div>
 
