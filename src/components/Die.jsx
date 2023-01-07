@@ -3,7 +3,7 @@ import React from "react";
 const Die = (props) => {
 
     return (
-        <div className={'die-face' + (props.selected ? ' die-selected': '')} onClick={props.toggleSelect}>
+        <div className={'die-face' + (props.selected ? ' die-selected': '')} onClick={() => props.toggleSelect(props.index)}>
             <h1 className="die-face--value">{props.value}</h1>
         </div>
     );
