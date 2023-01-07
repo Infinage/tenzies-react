@@ -1,4 +1,5 @@
 import React from "react";
+import Confetti from 'react-confetti'
 
 import Die from "./components/Die";
 
@@ -41,10 +42,11 @@ const App = () => {
     }, [dice])
 
     return (
-        <main className={isGameWon? "game-won": ""}>
+        <main>
+            {isGameWon && <Confetti />}
             <div className="info">
                 <h1 className="info--h1">Tenzies</h1>
-                <p className="info--p">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+                <p className="info--p">Roll until all dice are the same. Click each die to freeze / unfreeze it at its current value between rolls.</p>
             </div>
 
             <div className="die-container">
