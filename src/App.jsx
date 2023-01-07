@@ -10,11 +10,15 @@ const App = () => {
     }
 
     const toggleSelect = (id) => {
-        setDice(prevDice => [
-            ...prevDice.slice(0, id), 
-            {...prevDice.at(id), selected: !prevDice.at(id)['selected']}, 
-            ...prevDice.slice(id + 1)
-        ]);
+        if (!isGameWon) {
+            const selectedDieValue = dice.find(d => d.selected == true)?.value;
+
+            setDice(prevDice => [
+                ...prevDice.slice(0, id), 
+                {...prevDice.at(id), selected: !selectedDieValue || selectedDieValue == prevDice.at(id).value? !prevDice.at(id)['selected']: prevDice.at(id)['selected']}, 
+                ...prevDice.slice(id + 1)
+            ]);
+        }
     }
 
     const rollDice = () => {
@@ -54,7 +58,10 @@ const App = () => {
             </div>
 
             <div>
-                <button className="roll-button" onClick={isGameWon ? resetGame: rollDice}>{isGameWon ? 'Reset Game': 'Roll'}</button>
+                { isGameWon? 
+                  <button className="roll-button" style={{backgroundColor: "#e0a800"}} onClick={resetGame}>Reset Game</button>: 
+                  <button className="roll-button" style={{backgroundColor: "#5035FF"}} onClick={rollDice}>Roll</button>
+                }
             </div>
         </main>
     );
