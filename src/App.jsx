@@ -1,13 +1,26 @@
 import React from "react";
-import Confetti from 'react-confetti'
-
+import Confetti from 'react-confetti';
 import Die from "./components/Die";
+import AboutUsModal from  "./components/AboutUsModal";
+import { useWindowSize } from "@react-hook/window-size";
+
+const resetDice = () => {
+    return Array(10).fill(null).map((ele, index) => ({id: index, value: rollDie(), selected: false}))
+}
+
+const rollDie = () => {
+    return Math.floor(Math.random() * 6) + 1;
+}
 
 const App = () => {
 
-    const rollDie = () => {
-        return Math.floor(Math.random() * 6) + 1;
-    }
+    const [dice, setDice] = React.useState(resetDice());
+    const [isGameWon, setIsGameWon] = React.useState(false);
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [deviceSupportsPWA, setdeviceSupportsPWA] = React.useState(false);
+    const [promptInstall, setPromptInstall] = React.useState(null);
+
+    const [width, height] = useWindowSize();
 
     const toggleSelect = (id) => {
         if (!isGameWon) {
@@ -27,29 +40,35 @@ const App = () => {
         });
     } 
 
-    const resetDice = () => {
-        return Array(10).fill(null).map((ele, index) => ({id: index, value: rollDie(), selected: false}))
-    }
-
     const resetGame = () => {
         setDice(resetDice());
         setIsGameWon(false);
     }
 
-    const [dice, setDice] = React.useState(resetDice());
-
-    const [isGameWon, setIsGameWon] = React.useState(false);
-
     React.useEffect(() => {
         const result = dice.every(val => val.value === dice[0].value && val.selected);
         setIsGameWon(result);
+
+        if (result && Math.random() < 0.25) setModalIsOpen(true);
     }, [dice])
+
+    React.useEffect(() => {
+        const handler = e => {
+            e.preventDefault();
+            setdeviceSupportsPWA(true);
+            setPromptInstall(e);
+        };
+
+        window.addEventListener("beforeinstallprompt", handler);
+        return () => window.removeEventListener("beforeinstallprompt", handler);
+    }, [])
 
     return (
         <main>
-            {isGameWon && <Confetti />}
+            {isGameWon && <Confetti height={height} width={width} />}
+            <AboutUsModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} isPWASupported={deviceSupportsPWA} promptInstall={promptInstall} />
             <div className="info">
-                <h1 className="info--h1"><a href="https://github.com/Infinage/tenzies-react">Tenzies</a></h1>
+                <h1 className="info--h1">Tenzies</h1>
                 <p className="info--p">Roll until all dice are the same. Click each die to freeze / unfreeze it at its current value between rolls.</p>
             </div>
 

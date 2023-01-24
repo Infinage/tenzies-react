@@ -7,12 +7,12 @@ main {
     background-color: rgb(245,245,245);
     max-width: 800px;
     height: auto;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: auto;
-    padding-bottom: 20px;
+    padding: 1rem;
 }
 
 .info {
@@ -67,6 +67,45 @@ main {
     font-family: 'Karla', sans-serif;
     cursor: pointer;
     margin-top: 30px;
+}
+
+.roll-button:active {
+    filter: opacity(0.75);
+}
+
+.modal-container{
+    outline: none;
+    border: 0.1rem solid lightgray;
+    max-width: 600px;
+    background-color: whitesmoke;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-right: -25%;
+    user-select: none;
+}
+
+.modal-container-btns{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.modal-container-btns button {
+    width: min(150px, 50vw);
+    border: none;
+    border-radius: 6px;
+    background-color: rgb(124, 104, 255);
+    padding: 0.5rem;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Karla', sans-serif;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 500px) {
