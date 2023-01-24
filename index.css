@@ -1,6 +1,13 @@
 body {
     background-color: rgb(11,36,52);
     font-family: 'Karla', sans-serif;
+    min-height: 95vh;
+    display: grid;
+    align-content: center;
+}
+
+#root {
+    margin: 0.5rem;
 }
 
 main {
