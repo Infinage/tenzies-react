@@ -1,8 +1,14 @@
 import React from "react";
 import Confetti from 'react-confetti';
+import useSound from 'use-sound';
 import Die from "./components/Die";
 import AboutUsModal from  "./components/AboutUsModal";
 import { useWindowSize } from "@react-hook/window-size";
+
+import victorySfx from "./assets/victory.mp3";
+import rollSfx from "./assets/dice-roll.mp3";
+import popSfx from "./assets/poit.mp3";
+import clickSfx from "./assets/click.mp3";
 
 const resetDice = () => {
     return Array(10).fill(null).map((ele, index) => ({id: index, value: rollDie(), selected: false}))
@@ -20,11 +26,25 @@ const App = () => {
     const [deviceSupportsPWA, setdeviceSupportsPWA] = React.useState(false);
     const [promptInstall, setPromptInstall] = React.useState(null);
 
+    const [playVictorySfx] = useSound(victorySfx);
+    const [playRollSfx] = useSound(rollSfx);
+    const [playPopSfx] = useSound(popSfx);
+    const [playClickSfx] = useSound(clickSfx)
+
+
     const [width, height] = useWindowSize();
 
     const toggleSelect = (id) => {
+
         if (!isGameWon) {
+
+            // Values that are already selected
             const selectedDieValue = dice.find(d => d.selected == true)?.value;
+
+            if (!selectedDieValue || selectedDieValue == dice.at(id).value){
+                // Play pop SFX when tile is being toggled
+                playPopSfx();
+            }
 
             setDice(prevDice => [
                 ...prevDice.slice(0, id), 
@@ -35,21 +55,34 @@ const App = () => {
     }
 
     const rollDice = () => {
+        
+        // On die roll, play a click SFX
+        playClickSfx();
+
         setDice(prevDice => {
             return prevDice.map(die => die.selected ? die: {...die, value: rollDie()})
         });
     } 
 
     const resetGame = () => {
+
+        // Play dice roll SFX whenever the die is being reset
+        playRollSfx();
+
         setDice(resetDice());
         setIsGameWon(false);
     }
 
     React.useEffect(() => {
+
         const result = dice.every(val => val.value === dice[0].value && val.selected);
         setIsGameWon(result);
 
-        if (result && Math.random() < 0.25) setModalIsOpen(true);
+        if (result) {
+            playVictorySfx();
+            if (Math.random() < 0.25) setModalIsOpen(true);
+        }
+
     }, [dice])
 
     React.useEffect(() => {

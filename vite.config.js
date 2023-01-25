@@ -8,6 +8,7 @@ export default defineConfig({
     react(), 
     VitePWA({ 
       registerType: 'autoUpdate',
+      workbox: {globPatterns: ['**/*.{js,css,html,ico,png,svg,mp3}'] },
       devOptions: { enabled: true },
       manifest: {
         name: 'Tenzies Game',
@@ -28,7 +29,8 @@ export default defineConfig({
           {
               "src": "/android-chrome-512x512.png",
               "sizes": "512x512",
-              "type": "image/png"
+              "type": "image/png",
+              "purpose": "any maskable"
           }
         ]
       }
